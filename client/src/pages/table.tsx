@@ -1,13 +1,6 @@
 import { useState } from "react";
 import { Button } from "@heroui/button";
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  useDisclosure,
-} from "@heroui/modal";
+import { useDisclosure } from "@heroui/modal";
 import {
   Table,
   TableHeader,
@@ -16,9 +9,11 @@ import {
   TableRow,
   TableCell,
 } from "@heroui/table";
+import { Form } from "@heroui/form";
 import { Input, Textarea } from "@heroui/input";
 
 import DefaultLayout from "@/layouts/default";
+import CustomModal from "@/components/modal";
 
 export default function TablePage() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -126,34 +121,17 @@ export default function TablePage() {
             </TableBody>
           </Table>
         </div>
-        <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
-          <ModalContent>
-            {(onClose) => (
-              <>
-                <ModalHeader className="flex flex-col gap-1">
-                  Modal Title
-                </ModalHeader>
-                <ModalBody>
-                  <Input label="Update name" type="text" />
-                  <Input label="Update likes" type="number" />
-                  <Textarea
-                    className="w-full"
-                    label="Description"
-                    placeholder="Enter your description"
-                  />
-                </ModalBody>
-                <ModalFooter>
-                  <Button color="danger" variant="light" onPress={onClose}>
-                    Close
-                  </Button>
-                  <Button color="primary" onPress={onClose}>
-                    Edit
-                  </Button>
-                </ModalFooter>
-              </>
-            )}
-          </ModalContent>
-        </Modal>
+        <CustomModal isOpen={isOpen} onOpenChange={onOpenChange}>
+          <Form>
+            <Input label="Update name" type="text" />
+            <Input label="Update likes" type="number" />
+            <Textarea
+              className="w-full"
+              label="Description"
+              placeholder="Enter your description"
+            />
+          </Form>
+        </CustomModal>
       </section>
     </DefaultLayout>
   );
