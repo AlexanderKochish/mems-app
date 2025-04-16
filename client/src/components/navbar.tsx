@@ -17,8 +17,10 @@ import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
 import { SearchIcon } from "@/components/icons";
 import { Logo } from "@/components/icons";
+import useSearch from "@/hooks/useSearch";
 
 export const Navbar = () => {
+  const { search, setSearch } = useSearch();
   const searchInput = (
     <Input
       aria-label="Search"
@@ -27,7 +29,10 @@ export const Navbar = () => {
         input: "text-sm",
       }}
       endContent={
-        <Kbd className="hidden lg:inline-block" keys={["command"]}>
+        <Kbd
+          className="hidden lg:inline-block md:inline-block"
+          keys={["command"]}
+        >
           K
         </Kbd>
       }
@@ -37,6 +42,8 @@ export const Navbar = () => {
         <SearchIcon className="text-base text-default-400 pointer-events-none flex-shrink-0" />
       }
       type="search"
+      value={search}
+      onChange={(e) => setSearch(e.target.value)}
     />
   );
 
@@ -53,7 +60,7 @@ export const Navbar = () => {
             <p className="font-bold text-inherit">MEMS</p>
           </Link>
         </NavbarBrand>
-        <div className="hidden lg:flex gap-4 justify-start ml-2">
+        <div className="hidden lg:flex md:flex  sm:flex gap-4 justify-start ml-2">
           {siteConfig.navItems.map((item) => (
             <NavbarItem key={item.href}>
               <Link
@@ -75,7 +82,9 @@ export const Navbar = () => {
         className="hidden sm:flex basis-1/5 sm:basis-full"
         justify="end"
       >
-        <NavbarItem className="hidden lg:flex">{searchInput}</NavbarItem>
+        <NavbarItem className="hidden lg:flex md:flex sm:flex">
+          {searchInput}
+        </NavbarItem>
       </NavbarContent>
 
       <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
