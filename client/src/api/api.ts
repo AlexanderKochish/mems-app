@@ -24,7 +24,7 @@ export const editMem = async (
   id: string,
   editData: EditMemType,
 ): Promise<EditMemType> => {
-  const { data } = await api.patch<MemType>(`/memes/${id}`, editData);
+  const { data } = await api.patch<EditMemType>(`/memes/${id}`, editData);
 
   return data || {};
 };

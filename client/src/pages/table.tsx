@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Button } from "@heroui/button";
 import { useDisclosure } from "@heroui/modal";
 import {
@@ -8,21 +9,20 @@ import {
   TableRow,
   TableCell,
 } from "@heroui/table";
-import { Form } from "@heroui/form";
-import { Input, Textarea } from "@heroui/input";
+import { Tooltip } from "@heroui/tooltip";
 
 import DefaultLayout from "@/layouts/default";
 import CustomModal from "@/components/modal";
 import { MemType } from "@/types";
-import useSearch from "@/hooks/useSearch";
+import EditForm from "@/components/EditForm";
 
 type Props = {
   list: MemType[] | undefined;
 };
 
 export default function TablePage({ list = [] }: Props) {
-  const { memId, setMemId } = useSearch();
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [memId, setMemId] = useState("");
+  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
 
   const openChosenCard = (id: string) => {
     setMemId(id);
@@ -31,7 +31,7 @@ export default function TablePage({ list = [] }: Props) {
 
   return (
     <DefaultLayout>
-      <section className="flex flex-col items-center justify-start gap-4 py-8 md:py-10">
+      <section className="flex flex-col items-center justify-start gap-4 py-8">
         <div className="w-full text-center justify-center">
           <Table
             aria-label="Example static collection table"
@@ -49,7 +49,20 @@ export default function TablePage({ list = [] }: Props) {
                 list.map((item) => (
                   <TableRow key={item.id}>
                     <TableCell>{item.title}</TableCell>
-                    <TableCell>{item.desc.slice(0, 100)}...</TableCell>
+
+                    <TableCell>
+                      <Tooltip
+                        key={"bottom"}
+                        className="w-[320px] min-h-[50px]"
+                        color="secondary"
+                        content={item.desc}
+                        placement={"bottom"}
+                      >
+                        {item.desc.length > 70
+                          ? `${item.desc.slice(0, 70)}...`
+                          : item.desc}
+                      </Tooltip>
+                    </TableCell>
                     <TableCell>{item.likes}</TableCell>
                     <TableCell>
                       <Button
@@ -64,16 +77,8 @@ export default function TablePage({ list = [] }: Props) {
             </TableBody>
           </Table>
         </div>
-        <CustomModal edit isOpen={isOpen} onOpenChange={onOpenChange}>
-          <Form>
-            <Input label="Update name" type="text" />
-            <Input label="Update likes" type="number" />
-            <Textarea
-              className="w-full"
-              label="Description"
-              placeholder="Enter your description"
-            />
-          </Form>
+        <CustomModal isOpen={isOpen} onOpenChange={onOpenChange}>
+          <EditForm id={memId} onModalClose={onClose} />
         </CustomModal>
       </section>
     </DefaultLayout>

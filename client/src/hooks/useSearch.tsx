@@ -10,7 +10,7 @@ const useSearch = () => {
 
   const [search, setSearch] = useState(searchParams.get("search") || "");
   const [memId, setMemId] = useState(searchParams.get("id") || "");
-  const debounceValue = useDebounce({ value: search, delay: 1000 });
+  const debounceValue = useDebounce({ value: search, delay: 500 });
 
   useEffect(() => {
     const newParams = new URLSearchParams();

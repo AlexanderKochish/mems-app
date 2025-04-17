@@ -88,6 +88,7 @@ export const Navbar = () => {
         className="hidden sm:flex basis-1/5 sm:basis-full"
         justify="end"
       >
+        <ThemeSwitch />
         <NavbarItem className="hidden lg:flex md:flex sm:flex">
           {searchInput}
         </NavbarItem>
@@ -102,7 +103,7 @@ export const Navbar = () => {
         {searchInput}
         <div className="mx-4 mt-2 flex flex-col gap-2">
           {siteConfig.navMenuItems.map((item, index) => (
-            <NavbarMenuItem key={`${item}-${index}`}>
+            <NavbarMenuItem key={`${item.label}-${index}`}>
               <Link
                 color={
                   index === 2
@@ -111,7 +112,7 @@ export const Navbar = () => {
                       ? "danger"
                       : "foreground"
                 }
-                href="#"
+                href={item.href}
                 size="lg"
               >
                 {item.label}

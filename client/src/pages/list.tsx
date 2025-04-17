@@ -20,8 +20,6 @@ export default function ListPage({ list }: Props) {
   const { memId, setMemId } = useSearch();
   const [isOpen, setIsOpen] = useState(false);
 
-  // const { onOpen } = useDisclosure();
-
   const { data, isLoading, error } = useQuery({
     queryKey: ["mem", memId],
     queryFn: async () => await getOneMemById(memId),
@@ -46,6 +44,10 @@ export default function ListPage({ list }: Props) {
 
   if (isLoading) {
     return <CustomSpinner />;
+  }
+
+  if (error) {
+    return <p>error: `${error.message}`</p>;
   }
 
   return (
