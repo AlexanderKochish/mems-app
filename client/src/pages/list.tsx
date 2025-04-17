@@ -25,24 +25,23 @@ export default function ListPage({ list }: Props) {
     queryFn: async () => await getOneMemById(memId),
     enabled: !!memId,
   });
-
-  useEffect(() => {
-    if (memId) {
-      setIsOpen(true);
-    }
-
-    if (!isOpen) {
-      setMemId("");
-      setIsOpen(false);
-    }
-  }, [memId, isOpen]);
-
   const openChosenCard = (id: string) => {
     setMemId(id);
     setIsOpen(true);
   };
 
-  if (isLoading) {
+  const closeModal = () => {
+    setMemId("");
+    setIsOpen(false);
+  };
+
+  useEffect(() => {
+    if (memId) {
+      setIsOpen(true);
+    }
+  }, [memId]);
+
+  if (isLoading && isOpen) {
     return <CustomSpinner />;
   }
 
@@ -93,7 +92,7 @@ export default function ListPage({ list }: Props) {
         <CustomModal
           isOpen={isOpen}
           title={data?.title}
-          onOpenChange={() => setIsOpen(!isOpen)}
+          onOpenChange={closeModal}
         >
           <>
             <div className="overflow-visible p-0">
