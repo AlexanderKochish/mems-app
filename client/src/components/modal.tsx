@@ -13,9 +13,16 @@ type Props = {
   onOpenChange: () => void;
   title?: string;
   children: ReactElement;
+  edit?: boolean;
 };
 
-const CustomModal = ({ isOpen, onOpenChange, title, children }: Props) => {
+const CustomModal = ({
+  isOpen,
+  onOpenChange,
+  title,
+  children,
+  edit,
+}: Props) => {
   return (
     <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
       <ModalContent>
@@ -24,12 +31,11 @@ const CustomModal = ({ isOpen, onOpenChange, title, children }: Props) => {
             <ModalHeader className="flex flex-col gap-1">{title}</ModalHeader>
             <ModalBody>{children}</ModalBody>
             <ModalFooter>
-              <Button color="danger" variant="light" onPress={onClose}>
-                Close
-              </Button>
-              <Button color="primary" type="submit" onPress={onClose}>
-                Edit
-              </Button>
+              {edit && (
+                <Button color="primary" type="submit" onPress={onClose}>
+                  Edit
+                </Button>
+              )}
             </ModalFooter>
           </>
         )}

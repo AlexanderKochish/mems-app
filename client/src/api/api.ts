@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { MemType } from "@/types";
+import { EditMemType, MemType } from "@/types";
 
 const BASE_URL = import.meta.env.VITE_BASE_API;
 const api = axios.create({
@@ -16,6 +16,15 @@ export const getAllMemes = async (search: string): Promise<MemType[]> => {
 
 export const getOneMemById = async (id: string): Promise<MemType> => {
   const { data } = await api.get<MemType>(`/memes/${id}`);
+
+  return data || {};
+};
+
+export const editMem = async (
+  id: string,
+  editData: EditMemType,
+): Promise<EditMemType> => {
+  const { data } = await api.patch<MemType>(`/memes/${id}`, editData);
 
   return data || {};
 };

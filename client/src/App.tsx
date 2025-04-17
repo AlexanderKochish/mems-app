@@ -4,6 +4,8 @@ import { lazy, Suspense } from "react";
 
 import { getAllMemes } from "./api/api";
 import { useDebounce } from "./hooks/useDebounce";
+import { CustomSpinner } from "./components/spinner";
+import { ErrorBoundary } from "./components/ErrorBoundary";
 
 const TablePage = lazy(() => import("./pages/table"));
 const ListPage = lazy(() => import("./pages/list"));
@@ -22,7 +24,7 @@ function App() {
   });
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <CustomSpinner />;
   }
 
   if (error) {
@@ -30,12 +32,14 @@ function App() {
   }
 
   return (
-    <Suspense fallback={<p>Loading...</p>}>
-      <Routes>
-        <Route element={<TablePage list={data} />} path="/" />
-        <Route element={<ListPage list={data} />} path="/list" />
-      </Routes>
-    </Suspense>
+    <ErrorBoundary>
+      <Suspense fallback={<CustomSpinner />}>
+        <Routes>
+          <Route element={<TablePage list={data} />} path="/" />
+          <Route element={<ListPage list={data} />} path="/list" />
+        </Routes>
+      </Suspense>
+    </ErrorBoundary>
   );
 }
 

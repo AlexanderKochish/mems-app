@@ -14,13 +14,20 @@ import { Input, Textarea } from "@heroui/input";
 import DefaultLayout from "@/layouts/default";
 import CustomModal from "@/components/modal";
 import { MemType } from "@/types";
+import useSearch from "@/hooks/useSearch";
 
 type Props = {
   list: MemType[] | undefined;
 };
 
 export default function TablePage({ list = [] }: Props) {
+  const { memId, setMemId } = useSearch();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+  const openChosenCard = (id: string) => {
+    setMemId(id);
+    onOpen();
+  };
 
   return (
     <DefaultLayout>
@@ -45,7 +52,10 @@ export default function TablePage({ list = [] }: Props) {
                     <TableCell>{item.desc.slice(0, 100)}...</TableCell>
                     <TableCell>{item.likes}</TableCell>
                     <TableCell>
-                      <Button color="primary" onPress={onOpen}>
+                      <Button
+                        color="primary"
+                        onPress={() => openChosenCard(item.id)}
+                      >
                         Edit
                       </Button>
                     </TableCell>
@@ -54,7 +64,7 @@ export default function TablePage({ list = [] }: Props) {
             </TableBody>
           </Table>
         </div>
-        <CustomModal isOpen={isOpen} onOpenChange={onOpenChange}>
+        <CustomModal edit isOpen={isOpen} onOpenChange={onOpenChange}>
           <Form>
             <Input label="Update name" type="text" />
             <Input label="Update likes" type="number" />

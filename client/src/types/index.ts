@@ -11,3 +11,5 @@ export type MemType = {
   desc: string;
   likes: number;
 };
+
+export type EditMemType = Omit<Partial<MemType>, "id" | "image">;

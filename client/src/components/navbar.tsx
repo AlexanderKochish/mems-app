@@ -20,7 +20,12 @@ import { Logo } from "@/components/icons";
 import useSearch from "@/hooks/useSearch";
 
 export const Navbar = () => {
-  const { search, setSearch } = useSearch();
+  const { search, setSearch, setMemId } = useSearch();
+
+  const onReset = () => {
+    setSearch("");
+    setMemId("");
+  };
   const searchInput = (
     <Input
       aria-label="Search"
@@ -44,6 +49,7 @@ export const Navbar = () => {
       type="search"
       value={search}
       onChange={(e) => setSearch(e.target.value)}
+      onReset={onReset}
     />
   );
 
