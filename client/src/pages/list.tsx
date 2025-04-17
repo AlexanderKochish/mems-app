@@ -41,7 +41,7 @@ export default function ListPage({ list }: Props) {
     }
   }, [memId]);
 
-  if (isLoading && isOpen) {
+  if (isLoading) {
     return <CustomSpinner />;
   }
 
